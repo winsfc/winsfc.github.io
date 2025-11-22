@@ -132,11 +132,33 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
 
+        .photo-card {
+            position: relative;
+        }
+
         .photo-card img {
             width: 100%;
             height: 220px;
             object-fit: cover;
             display: block;
+        }
+
+        .photo-qrcode {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .photo-qrcode canvas {
+            width: 100% !important;
+            height: 100% !important;
         }
 
         .photo-info {
@@ -306,9 +328,7 @@
                     <p>轻音乐 · 回忆的旋律</p>
                 </div>
                 <div class="music-controls">
-                    <button id="prev-btn"><i class="fas fa-step-backward"></i></button>
                     <button id="play-btn"><i class="fas fa-play"></i></button>
-                    <button id="next-btn"><i class="fas fa-step-forward"></i></button>
                 </div>
                 <div class="progress-container">
                     <div class="progress" id="progress"></div>
@@ -316,28 +336,13 @@
                 <span id="time">0:00 / 0:00</span>
             </div>
         </header>
-        
+
         <section class="photo-gallery">
             <!-- 照片将通过JavaScript动态添加 -->
         </section>
-        
-        <section class="qr-section">
-            <h2>分享我的音乐相册</h2>
-            <div id="qrcode"></div>
-            <p>扫描二维码，在手机上查看此相册</p>
-            
-            <div class="share-buttons">
-                <button class="share-btn primary" id="download-qr">
-                    <i class="fas fa-download"></i> 下载二维码
-                </button>
-                <button class="share-btn secondary" id="share-link">
-                    <i class="fas fa-share-alt"></i> 分享链接
-                </button>
-            </div>
-        </section>
-        
+
         <footer>
-            <p>© 2023 我的音乐相册 | 基于 GitHub Pages 创建</p>
+            <p>© 2025 音乐相册 | 基于 GitHub Pages 创建</p>
         </footer>
     </div>
     
@@ -353,49 +358,43 @@
             {
                 id: 1,
                 title: "山间日出",
-                description: "清晨的第一缕阳光洒在山巅",
-                url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "清晨的第一缕阳光洒在山巅"
             },
             {
                 id: 2,
                 title: "海边日落",
-                description: "金色的夕阳映照在海面上",
-                url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "金色的夕阳映照在海面上"
             },
             {
                 id: 3,
                 title: "森林小径",
-                description: "漫步在宁静的森林小路上",
-                url: "https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "漫步在宁静的森林小路上"
             },
             {
                 id: 4,
                 title: "城市夜景",
-                description: "灯火辉煌的城市夜晚",
-                url: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "灯火辉煌的城市夜晚"
             },
             {
                 id: 5,
                 title: "雪山之巅",
-                description: "白雪覆盖的壮丽山峰",
-                url: "https://images.unsplash.com/photo-1464822759843-44becdd3dafb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "白雪覆盖的壮丽山峰"
             },
             {
                 id: 6,
                 title: "田园风光",
-                description: "宁静的乡村田园景色",
-                url: "https://images.unsplash.com/photo-1506260408121-e353d10b87c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                description: "宁静的乡村田园景色"
             }
         ];
 
         // 音乐数据
         const audio = new Audio();
-        audio.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; // 示例音乐链接
+        audio.src = "https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/muisc.mp3"; // 示例音乐链接
+        audio.loop = true; // 循环播放
+        audio.volume = 0.5; // 设置音量
         
         // DOM元素
         const playBtn = document.getElementById('play-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
         const progress = document.getElementById('progress');
         const progressContainer = document.querySelector('.progress-container');
         const timeDisplay = document.getElementById('time');
@@ -404,21 +403,58 @@
         const modalImg = document.getElementById('modal-image');
         const closeModal = document.querySelector('.close-modal');
         const qrCodeElement = document.getElementById('qrcode');
-        const downloadQrBtn = document.getElementById('download-qr');
-        const shareLinkBtn = document.getElementById('share-link');
 
         // 初始化音乐播放器
         let isPlaying = false;
+        let hasUserInteracted = false; // 标记用户是否已交互
 
         function togglePlay() {
             if (isPlaying) {
                 audio.pause();
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
             } else {
-                audio.play();
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        isPlaying = true;
+                        hasUserInteracted = true;
+                    }).catch(error => {
+                        console.log('播放失败:', error);
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                        isPlaying = false;
+                    });
+                } else {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    isPlaying = true;
+                    hasUserInteracted = true;
+                }
             }
-            isPlaying = !isPlaying;
+        }
+
+        // 尝试自动播放音乐
+        async function tryAutoPlay() {
+            try {
+                await audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+                hasUserInteracted = true;
+            } catch (error) {
+                console.log('自动播放被浏览器阻止，等待用户交互');
+                // 如果自动播放失败，在用户第一次点击时播放
+                const playOnInteraction = () => {
+                    if (!hasUserInteracted) {
+                        tryAutoPlay();
+                        hasUserInteracted = true;
+                        // 移除事件监听器，只执行一次
+                        document.removeEventListener('click', playOnInteraction);
+                        document.removeEventListener('touchstart', playOnInteraction);
+                    }
+                };
+                document.addEventListener('click', playOnInteraction, { once: true });
+                document.addEventListener('touchstart', playOnInteraction, { once: true });
+            }
         }
 
         function updateProgress(e) {
@@ -443,14 +479,19 @@
             audio.currentTime = (clickX / width) * duration;
         }
 
+		function getPhotoUrl(index) {
+            return `https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/photos/photo${index}.png`;
+        }
+
         // 初始化照片库
         function renderPhotos() {
             gallery.innerHTML = '';
             photos.forEach(photo => {
+				photoUrl = getPhotoUrl(photo.id);
                 const photoCard = document.createElement('div');
                 photoCard.className = 'photo-card';
                 photoCard.innerHTML = `
-                    <img src="${photo.url}" alt="${photo.title}">
+                    <img src="${photoUrl}" alt="${photo.title}">
                     <div class="photo-info">
                         <h3>${photo.title}</h3>
                         <p>${photo.description}</p>
@@ -458,57 +499,14 @@
                 `;
                 photoCard.addEventListener('click', () => {
                     modal.style.display = 'flex';
-                    modalImg.src = photo.url;
+                    modalImg.src = photoUrl;
                 });
                 gallery.appendChild(photoCard);
             });
         }
 
-        // 生成二维码
-        function generateQRCode() {
-            const currentUrl = window.location.href;
-            QRCode.toCanvas(qrCodeElement, currentUrl, {
-                width: 200,
-                margin: 1,
-                color: {
-                    dark: '#2c3e50',
-                    light: '#ffffff'
-                }
-            }, function(error) {
-                if (error) console.error(error);
-            });
-        }
-
-        // 下载二维码
-        function downloadQRCode() {
-            const canvas = qrCodeElement.querySelector('canvas');
-            const link = document.createElement('a');
-            link.download = '我的音乐相册二维码.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }
-
-        // 分享链接
-        function shareLink() {
-            if (navigator.share) {
-                navigator.share({
-                    title: '我的音乐相册',
-                    text: '来看看我的音乐相册吧！',
-                    url: window.location.href,
-                })
-                .catch(error => console.log('分享失败:', error));
-            } else {
-                // 备用方案：复制到剪贴板
-                navigator.clipboard.writeText(window.location.href)
-                    .then(() => alert('链接已复制到剪贴板！'))
-                    .catch(err => console.error('复制失败:', err));
-            }
-        }
-
         // 事件监听
         playBtn.addEventListener('click', togglePlay);
-        prevBtn.addEventListener('click', () => alert('上一首'));
-        nextBtn.addEventListener('click', () => alert('下一首'));
         audio.addEventListener('timeupdate', updateProgress);
         progressContainer.addEventListener('click', setProgress);
         closeModal.addEventListener('click', () => {
@@ -519,12 +517,13 @@
                 modal.style.display = 'none';
             }
         });
-        downloadQrBtn.addEventListener('click', downloadQRCode);
-        shareLinkBtn.addEventListener('click', shareLink);
 
         // 初始化
-        renderPhotos();
-        generateQRCode();
+		document.addEventListener('DOMContentLoaded', () => {
+			renderPhotos();
+			tryAutoPlay(); // 尝试自动播放音乐
+		});
+        
     </script>
 </body>
 </html>
