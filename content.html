@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日祝福音乐相册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffc8dd 0%, #ffafcc 50%, #bde0fe 100%);
+            color: #5a3d5c;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(to right, #ff5c8d, #ff97b7);
+            margin: -20px -20px 30px -20px;
+            border-radius: 20px 20px 0 0;
+            color: white;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        
+        .wishes {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #ff5c8d;
+        }
+        
+        .wishes h2 {
+            color: #ff5c8d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .wishes p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .music-player {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .music-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .music-icon {
+            width: 50px;
+            height: 50px;
+            background: #ff5c8d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .music-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #ff5c8d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #ff97b7;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ff5c8d;
+            color: #ff5c8d;
+        }
+        
+        .btn-outline:hover {
+            background: #ff5c8d;
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #5a3d5c;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .balloons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: float 15s linear infinite;
+        }
+        
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .balloon:nth-child(1) {
+            left: 10%;
+            background: #ff5c8d;
+            animation-delay: 0s;
+        }
+        
+        .balloon:nth-child(2) {
+            left: 20%;
+            background: #ff97b7;
+            animation-delay: 2s;
+        }
+        
+        .balloon:nth-child(3) {
+            left: 30%;
+            background: #bde0fe;
+            animation-delay: 4s;
+        }
+        
+        .balloon:nth-child(4) {
+            left: 40%;
+            background: #a2d2ff;
+            animation-delay: 6s;
+        }
+        
+        .balloon:nth-child(5) {
+            left: 50%;
+            background: #ffc8dd;
+            animation-delay: 8s;
+        }
+        
+        .balloon:nth-child(6) {
+            left: 60%;
+            background: #cdb4db;
+            animation-delay: 10s;
+        }
+        
+        .balloon:nth-child(7) {
+            left: 70%;
+            background: #ffafcc;
+            animation-delay: 12s;
+        }
+        
+        .balloon:nth-child(8) {
+            left: 80%;
+            background: #a2d2ff;
+            animation-delay: 14s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 全屏动画样式 */
+        .fullscreen-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff5c8d 0%, #ff97b7 50%, #bde0fe 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+        
+        .fullscreen-animation.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        /* 修复后的烟花效果 */
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+            animation: firework-explode 2s ease-out forwards;
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+        }
+        
+        @keyframes firework-explode {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+                transform: translate(calc(var(--tx) * 0.5), calc(var(--ty) * 0.5)) scale(1.5);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.5);
+                opacity: 0;
+            }
+        }
+        
+        .birthday-cake {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px 0;
+            animation: cake-appear 1s ease-out forwards;
+        }
+        
+        .cake {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 80px;
+            background: #f8d7c9;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .cake:before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #ff97b7;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .cake:after {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            background: #ffc8dd;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .candle {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 30px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        
+        .flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 20px;
+            background: #ffeb3b;
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 0.5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% {
+                transform: translateX(-50%) scale(1);
+            }
+            100% {
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+        
+        @keyframes cake-appear {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+        
+        .greeting-card {
+            background: white;
+            color: #5a3d5c;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: 20px;
+            transform: scale(0);
+            animation: card-appear 1s 1s ease-out forwards;
+        }
+        
+        @keyframes card-appear {
+            0% {
+                transform: scale(0) rotate(-10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+        
+        .greeting-card h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #ff5c8d;
+        }
+        
+        .greeting-card p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .continue-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background: white;
+            color: #ff5c8d;
+            border: 2px solid #ff5c8d;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-btn:hover {
+            background: #ff5c8d;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .photo-frame {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .music-player {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .greeting-card {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .greeting-card h2 {
+                font-size: 1.6rem;
+            }
+			
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+                justify-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .photo-frame {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .wishes p {
+                font-size: 1rem;
+            }
+            
+            .birthday-cake {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .cake {
+                width: 120px;
+                height: 60px;
+            }
+
+            .photo-gallery {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+            
+            .photo-card {
+                max-width: 350px;
+                width: 100%;
+            }
+        }
+		
+		.photo-gallery {
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .photo-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .photo-card .photo-image-container {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            position: relative;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+		
+		.photo-info {
+            padding: 20px;
+        }
+
+        .photo-info h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .photo-info p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+		
+		/* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #4b6cb7;
+        }
+		
+    </style>
+</head>
+<body>
+	<!-- 全屏动画 -->
+    <div class="fullscreen-animation" id="fullscreenAnimation">
+        <div class="fireworks" id="fireworks"></div>
+        <div class="birthday-cake">
+            <div class="cake">
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+        </div>
+        <div class="greeting-card">
+            <h2>生日快乐！</h2>
+            <p>愿你的每一天都充满阳光与欢笑，愿所有的美好都如期而至！</p>
+            <button class="continue-btn" id="continueBtn">拆开祝福</button>
+        </div>
+    </div>
+
+    <div class="balloons">
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
+    
+    <!-- 主内容 -->
+    <div class="container" id="mainContainer">
+        <header>
+            <h1>生日快乐！</h1>
+            <p class="subtitle">愿你的每一天都充满阳光与欢笑</p>
+        </header>
+
+        <section class="photo-gallery">
+            <!-- 照片将通过JavaScript动态添加 -->
+        </section>
+
+        <div class="wishes">
+            <h2><i class="fas fa-heart"></i> 生日祝福</h2>
+            <p>在这个特别的日子里，愿所有的快乐、所有的幸福、所有的温馨、所有的好运都围绕在你身边。愿你的生日充满无穷的快乐，愿你今天的回忆温馨，愿你所有的梦想甜美，愿你这一年称心如意！</p>
+            <p style="margin-top: 15px;">岁月如歌，时光荏苒，但我们却如这生日烛光，永远明亮温暖。愿你的新一岁充满更多的欢笑和成功，愿你的每一个愿望都能实现！</p>
+        </div>
+        
+        <div class="music-player">
+            <div class="music-info">
+                <div class="music-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div>
+                    <h3>光与明天的序章</h3>
+                    <p>致我们的爱情</p>
+                </div>
+            </div>
+            <div class="music-controls">
+                <button class="btn" id="playBtn">
+                    <i class="fas fa-play"></i> 播放音乐
+                </button>
+                <button class="btn btn-outline" id="pauseBtn">
+                    <i class="fas fa-pause"></i> 暂停
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>制作于 ❤️ 为你送上最真挚的生日祝福</p>
+        </footer>
+    </div>
+    
+    <audio id="birthdayMusic" loop>
+        <source src="https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/muisc.mp3" type="audio/mp3">
+        您的浏览器不支持音频元素。
+    </audio>
+    
+	<!-- 图片预览模态框 -->
+    <div class="modal" id="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+	
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullscreenAnimation = document.getElementById('fullscreenAnimation');
+            const mainContainer = document.getElementById('mainContainer');
+            const continueBtn = document.getElementById('continueBtn');
+            const fireworksContainer = document.getElementById('fireworks');
+            const music = document.getElementById('birthdayMusic');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            
+            // 创建烟花效果
+            function createFireworks() {
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const firework = document.createElement('div');
+                        firework.classList.add('firework');
+                        
+                        // 随机位置
+                        const x = Math.random() * window.innerWidth;
+                        const y = Math.random() * window.innerHeight;
+                        firework.style.left = `${x}px`;
+                        firework.style.top = `${y}px`;
+                        
+                        // 随机方向，增加扩散范围
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = 100 + Math.random() * 150;
+                        const tx = Math.cos(angle) * distance;
+                        const ty = Math.sin(angle) * distance;
+                        firework.style.setProperty('--tx', `${tx}px`);
+                        firework.style.setProperty('--ty', `${ty}px`);
+                        
+                        // 随机颜色
+                        const colors = ['#ff5c8d', '#ff97b7', '#bde0fe', '#a2d2ff', '#ffc8dd', '#ffffff', '#ffeb3b', '#ff6b6b'];
+                        const color = colors[Math.floor(Math.random() * colors.length)];
+                        firework.style.color = color;
+                        firework.style.backgroundColor = color;
+                        
+                        fireworksContainer.appendChild(firework);
+                        
+                        // 动画结束后移除元素
+                        setTimeout(() => {
+                            if (firework.parentNode) {
+                                firework.parentNode.removeChild(firework);
+                            }
+                        }, 2000);
+                    }, i * 50);
+                }
+            }
+            
+            // 初始烟花效果
+            createFireworks();
+            
+            // 每3秒创建新的烟花
+            setInterval(createFireworks, 3000);
+            
+            // 继续按钮点击事件
+            continueBtn.addEventListener('click', function() {
+                fullscreenAnimation.classList.add('hide');
+                setTimeout(() => {
+                    mainContainer.classList.add('show');
+                    // 尝试播放音乐
+                    music.play().then(() => {
+                        playBtn.innerHTML = '<i class="fas fa-play"></i> 播放中';
+                    }).catch(error => {
+                        console.log('自动播放被阻止，需要用户交互');
+                    });
+                }, 1000);
+            });
+            
+            // 音乐控制
+            playBtn.addEventListener('click', function() {
+                music.play();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> 播放中';
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                music.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> 播放音乐';
+            });
+            
+            // 10秒后自动关闭开场动画（如果用户没有点击）
+            setTimeout(() => {
+                if (!fullscreenAnimation.classList.contains('hide')) {
+                    continueBtn.click();
+                }
+            }, 10000);
+			
+			const photos = [
+				{
+					id: 10,
+					type: "png",
+					description: "清晨的第一缕阳光洒在山巅"
+				},
+				{
+					id: 11,
+					type: "jpg",
+					description: "金色的夕阳映照在海面上"
+				},
+				{
+					id: 12,
+					type: "jpg",
+					description: "漫步在宁静的森林小路上"
+				}
+			];
+			
+			function getPhotoUrl(index, type) {
+				return `https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/photos/${index}.${type}`;
+			}
+
+			const gallery = document.querySelector('.photo-gallery');
+			const modal = document.getElementById('image-modal');
+			const modalImg = document.getElementById('modal-image');
+			const closeModal = document.querySelector('.close-modal');
+			// 初始化照片库
+			function renderPhotos() {
+				gallery.innerHTML = '';
+				photos.forEach(photo => {
+					photoUrl = getPhotoUrl(photo.id, photo.type);
+					const photoCard = document.createElement('div');
+					photoCard.className = 'photo-card';
+					photoCard.innerHTML = `
+						<div class="photo-image-container">
+							<img src="${photoUrl}" loading="lazy">
+						</div>
+						<div class="photo-info">
+							<p>${photo.description}</p>
+						</div>
+					`;
+					photoCard.addEventListener('click', () => {
+						modal.style.display = 'flex';
+						modalImg.src = getPhotoUrl(photo.id, photo.type);
+					});
+					gallery.appendChild(photoCard);
+				});
+			}
+			
+			closeModal.addEventListener('click', () => {
+				modal.style.display = 'none';
+			});
+			modal.addEventListener('click', (e) => {
+				if (e.target === modal) {
+					modal.style.display = 'none';
+				}
+			});
+		
+			// 初始化
+			renderPhotos();
+        });
+		
+    </script>
+</body>
+</html>
