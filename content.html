@@ -694,7 +694,7 @@
             const music = document.getElementById('birthdayMusic');
             const playBtn = document.getElementById('playBtn');
             const pauseBtn = document.getElementById('pauseBtn');
-            
+            let fireworksInterval = null; // 保存烟花定时器，方便后面停止
             // 创建烟花效果
             function createFireworks() {
                 for (let i = 0; i < 50; i++) {
@@ -738,10 +738,17 @@
             createFireworks();
             
             // 每3秒创建新的烟花
-            setInterval(createFireworks, 3000);
+            fireworksInterval = setInterval(createFireworks, 3000);
             
             // 继续按钮点击事件
             continueBtn.addEventListener('click', function() {
+                // 停止后续烟花效果
+                if (fireworksInterval !== null) {
+                    clearInterval(fireworksInterval);
+                    fireworksInterval = null;
+                }
+                // 清空已有烟花元素
+                fireworksContainer.innerHTML = '';
                 fullscreenAnimation.classList.add('hide');
                 setTimeout(() => {
                     mainContainer.classList.add('show');
@@ -774,24 +781,73 @@
 			
 			const photos = [
 				{
+					id: 1,
+					description: "Happy Birthday to You!"
+				},
+				{
+					id: 2,
+					description: "生日快乐"
+				},
+				{
+					id: 3,
+					description: "生日快乐"
+				},
+				{
+					id: 4,
+					description: "乖巧可爱"
+				},
+				{
+					id: 5,
+					description: "真好看"
+				},
+				{
+					id: 6,
+					description: "领奖"
+				},
+				{
+					id: 7,
+					description: "嘟嘴"
+				},
+				{
 					id: 10,
-					type: "png",
-					description: "清晨的第一缕阳光洒在山巅"
+					description: "吃人啦"
 				},
 				{
 					id: 11,
-					type: "jpg",
-					description: "金色的夕阳映照在海面上"
+					description: "阳光明媚"
 				},
 				{
 					id: 12,
-					type: "jpg",
-					description: "漫步在宁静的森林小路上"
+					description: "再相逢"
+				},
+				{
+					id: 13,
+					description: "阳光热烈"
+				},
+				{
+					id: 14,
+					description: "吃雪糕"
+				},
+				{
+					id: 15,
+					description: "帅哥靓女"
+				},
+				{
+					id: 16,
+					description: "摩天轮"
+				},
+				{
+					id: 20,
+					description: "爱你"
+				},
+				{
+					id: 21,
+					description: "好看哟"
 				}
 			];
 			
-			function getPhotoUrl(index, type) {
-				return `https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/photos/${index}.${type}`;
+			function getPhotoUrl(index) {
+				return `https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/photos/${index}.jpg`;
 			}
 
 			const gallery = document.querySelector('.photo-gallery');
@@ -802,7 +858,7 @@
 			function renderPhotos() {
 				gallery.innerHTML = '';
 				photos.forEach(photo => {
-					photoUrl = getPhotoUrl(photo.id, photo.type);
+					const photoUrl = getPhotoUrl(photo.id);
 					const photoCard = document.createElement('div');
 					photoCard.className = 'photo-card';
 					photoCard.innerHTML = `
@@ -815,7 +871,7 @@
 					`;
 					photoCard.addEventListener('click', () => {
 						modal.style.display = 'flex';
-						modalImg.src = getPhotoUrl(photo.id, photo.type);
+						modalImg.src = getPhotoUrl(photo.id);
 					});
 					gallery.appendChild(photoCard);
 				});
