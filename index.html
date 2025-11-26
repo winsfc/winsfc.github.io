@@ -3,115 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的音乐相册</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <title>生日祝福音乐相册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Rounded', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffc8dd 0%, #ffafcc 50%, #bde0fe 100%);
+            color: #5a3d5c;
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
         }
-
+        
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            padding: 20px;
         }
-
+        
         header {
-            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-            color: white;
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 0;
+            background: linear-gradient(to right, #ff5c8d, #ff97b7);
+            margin: -20px -20px 30px -20px;
+            border-radius: 20px 20px 0 0;
+            color: white;
             position: relative;
         }
-
-        header h1 {
+        
+        h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
-
-        header p {
+        
+        .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
         }
-
+        
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .wishes {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #ff5c8d;
+        }
+        
+        .wishes h2 {
+            color: #ff5c8d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .wishes p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
         .music-player {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 15px 30px;
-            margin: 25px auto 0;
-            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-
+        
         .music-info {
-            flex-grow: 1;
-            margin-left: 15px;
-        }
-
-        .music-info h3 {
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        .music-controls {
             display: flex;
             align-items: center;
+            gap: 15px;
         }
-
-        .music-controls button {
-            background: none;
-            border: none;
+        
+        .music-icon {
+            width: 50px;
+            height: 50px;
+            background: #ff5c8d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
             font-size: 1.5rem;
+        }
+        
+        .music-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: #ff5c8d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            margin: 0 10px;
-            transition: transform 0.3s;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
-        .music-controls button:hover {
-            transform: scale(1.2);
+        
+        .btn:hover {
+            background: #ff97b7;
+            transform: translateY(-2px);
         }
-
-        .progress-container {
-            flex-grow: 1;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
-            margin: 0 15px;
-            cursor: pointer;
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ff5c8d;
+            color: #ff5c8d;
         }
-
-        .progress {
-            height: 100%;
-            width: 0%;
-            background: #4b6cb7;
-            border-radius: 5px;
-            transition: width 0.1s;
+        
+        .btn-outline:hover {
+            background: #ff5c8d;
+            color: white;
         }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #5a3d5c;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .balloons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            animation: float 15s linear infinite;
+        }
+        
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .balloon:nth-child(1) {
+            left: 10%;
+            background: #ff5c8d;
+            animation-delay: 0s;
+        }
+        
+        .balloon:nth-child(2) {
+            left: 20%;
+            background: #ff97b7;
+            animation-delay: 2s;
+        }
+        
+        .balloon:nth-child(3) {
+            left: 30%;
+            background: #bde0fe;
+            animation-delay: 4s;
+        }
+        
+        .balloon:nth-child(4) {
+            left: 40%;
+            background: #a2d2ff;
+            animation-delay: 6s;
+        }
+        
+        .balloon:nth-child(5) {
+            left: 50%;
+            background: #ffc8dd;
+            animation-delay: 8s;
+        }
+        
+        .balloon:nth-child(6) {
+            left: 60%;
+            background: #cdb4db;
+            animation-delay: 10s;
+        }
+        
+        .balloon:nth-child(7) {
+            left: 70%;
+            background: #ffafcc;
+            animation-delay: 12s;
+        }
+        
+        .balloon:nth-child(8) {
+            left: 80%;
+            background: #a2d2ff;
+            animation-delay: 14s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .music-player {
+                flex-direction: column;
+                gap: 15px;
+            }
 
-        .photo-gallery {
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .wishes p {
+                font-size: 1rem;
+            }
+
+            .photo-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+		
+		.photo-gallery {
             padding: 40px 20px;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -142,26 +316,8 @@
             object-fit: cover;
             display: block;
         }
-
-        .photo-qrcode {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 8px;
-            padding: 5px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-        }
-
-        .photo-qrcode canvas {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        .photo-info {
+		
+		.photo-info {
             padding: 20px;
         }
 
@@ -174,187 +330,96 @@
             color: #7f8c8d;
             font-size: 0.9rem;
         }
-
-        .qr-section {
-            background: #f8f9fa;
-            padding: 40px 20px;
-            text-align: center;
-            border-top: 1px solid #eaeaea;
-        }
-
-        .qr-section h2 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        #qrcode {
-            display: inline-block;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .share-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .share-btn.primary {
-            background: #4b6cb7;
-            color: white;
-        }
-
-        .share-btn.secondary {
-            background: #e9ecef;
-            color: #495057;
-        }
-
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: #2c3e50;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        /* 模态框样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-modal:hover {
-            color: #4b6cb7;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.2rem;
-            }
-            
-            .photo-gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
-            }
-            
-            .music-player {
-                flex-direction: column;
-                padding: 20px;
-                gap: 15px;
-            }
-            
-            .progress-container {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .photo-gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .share-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .share-btn {
-                width: 80%;
-            }
-        }
+		
     </style>
 </head>
 <body>
+    <div class="balloons">
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
+    
     <div class="container">
         <header>
-            <h1>我的音乐相册</h1>
-            <p>珍藏美好时刻，与音乐共舞的回忆</p>
-            
-            <div class="music-player">
-                <i class="fas fa-music" style="color: white; font-size: 1.8rem;"></i>
-                <div class="music-info">
-                    <h3>美好时光</h3>
-                    <p>轻音乐 · 回忆的旋律</p>
-                </div>
-                <div class="music-controls">
-                    <button id="play-btn"><i class="fas fa-play"></i></button>
-                </div>
-                <div class="progress-container">
-                    <div class="progress" id="progress"></div>
-                </div>
-                <span id="time">0:00 / 0:00</span>
-            </div>
+            <h1>生日快乐！</h1>
+            <p class="subtitle">愿你的每一天都充满阳光与欢笑</p>
         </header>
 
         <section class="photo-gallery">
             <!-- 照片将通过JavaScript动态添加 -->
         </section>
 
+        <div class="wishes">
+            <h2><i class="fas fa-heart"></i> 生日祝福</h2>
+            <p>在这个特别的日子里，愿所有的快乐、所有的幸福、所有的温馨、所有的好运都围绕在你身边。愿你的生日充满无穷的快乐，愿你今天的回忆温馨，愿你所有的梦想甜美，愿你这一年称心如意！</p>
+            <p style="margin-top: 15px;">岁月如歌，时光荏苒，但我们却如这生日烛光，永远明亮温暖。愿你的新一岁充满更多的欢笑和成功，愿你的每一个愿望都能实现！</p>
+        </div>
+        
+        <div class="music-player">
+            <div class="music-info">
+                <div class="music-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div>
+                    <h3>光与明天的序章</h3>
+                    <p>致我们的爱情</p>
+                </div>
+            </div>
+            <div class="music-controls">
+                <button class="btn" id="playBtn">
+                    <i class="fas fa-play"></i> 播放音乐
+                </button>
+                <button class="btn btn-outline" id="pauseBtn">
+                    <i class="fas fa-pause"></i> 暂停
+                </button>
+            </div>
+        </div>
+        
         <footer>
-            <p>© 2025 音乐相册 | 基于 GitHub Pages 创建</p>
+            <p>制作于 ❤️ 为你送上最真挚的生日祝福</p>
         </footer>
     </div>
     
-    <!-- 图片预览模态框 -->
-    <div class="modal" id="image-modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modal-image">
-    </div>
-
+    <audio id="birthdayMusic" loop>
+        <source src="https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/muisc.mp3" type="audio/mp3">
+        您的浏览器不支持音频元素。
+    </audio>
+    
     <script>
-        // 照片数据
-        const photos = [
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('birthdayMusic');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            
+            // 自动播放音乐（可能会被浏览器阻止，需要用户交互）
+            playBtn.addEventListener('click', function() {
+                music.play();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> 播放中';
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                music.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i> 播放音乐';
+            });
+            
+            // 尝试自动播放（需要用户交互后）
+            document.body.addEventListener('click', function initAudio() {
+                music.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-play"></i> 播放中';
+                }).catch(error => {
+                    console.log('自动播放被阻止，需要用户交互');
+                });
+                document.body.removeEventListener('click', initAudio);
+            });
+        });
+		
+		const photos = [
             {
                 id: 1,
                 title: "山间日出",
@@ -386,105 +451,14 @@
                 description: "宁静的乡村田园景色"
             }
         ];
-
-        // 音乐数据
-        const audio = new Audio();
-        audio.src = "https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/muisc.mp3"; // 示例音乐链接
-        audio.loop = true; // 循环播放
-        audio.volume = 0.5; // 设置音量
-        
-        // DOM元素
-        const playBtn = document.getElementById('play-btn');
-        const progress = document.getElementById('progress');
-        const progressContainer = document.querySelector('.progress-container');
-        const timeDisplay = document.getElementById('time');
-        const gallery = document.querySelector('.photo-gallery');
-        const modal = document.getElementById('image-modal');
-        const modalImg = document.getElementById('modal-image');
-        const closeModal = document.querySelector('.close-modal');
-        const qrCodeElement = document.getElementById('qrcode');
-
-        // 初始化音乐播放器
-        let isPlaying = false;
-        let hasUserInteracted = false; // 标记用户是否已交互
-
-        function togglePlay() {
-            if (isPlaying) {
-                audio.pause();
-                playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                isPlaying = false;
-            } else {
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                        isPlaying = true;
-                        hasUserInteracted = true;
-                    }).catch(error => {
-                        console.log('播放失败:', error);
-                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        isPlaying = false;
-                    });
-                } else {
-                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    isPlaying = true;
-                    hasUserInteracted = true;
-                }
-            }
-        }
-
-        // 尝试自动播放音乐
-        async function tryAutoPlay() {
-            try {
-                await audio.play();
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                isPlaying = true;
-                hasUserInteracted = true;
-            } catch (error) {
-                console.log('自动播放被浏览器阻止，等待用户交互');
-                // 如果自动播放失败，在用户第一次点击时播放
-                const playOnInteraction = () => {
-                    if (!hasUserInteracted) {
-                        tryAutoPlay();
-                        hasUserInteracted = true;
-                        // 移除事件监听器，只执行一次
-                        document.removeEventListener('click', playOnInteraction);
-                        document.removeEventListener('touchstart', playOnInteraction);
-                    }
-                };
-                document.addEventListener('click', playOnInteraction, { once: true });
-                document.addEventListener('touchstart', playOnInteraction, { once: true });
-            }
-        }
-
-        function updateProgress(e) {
-            const { duration, currentTime } = e.srcElement;
-            const progressPercent = (currentTime / duration) * 100;
-            progress.style.width = `${progressPercent}%`;
-            
-            // 更新时间显示
-            const currentMinutes = Math.floor(currentTime / 60);
-            const currentSeconds = Math.floor(currentTime % 60);
-            const durationMinutes = Math.floor(duration / 60);
-            const durationSeconds = Math.floor(duration % 60);
-            
-            timeDisplay.textContent = `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} / ${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
-        }
-
-        function setProgress(e) {
-            const width = this.clientWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
-            
-            audio.currentTime = (clickX / width) * duration;
-        }
-
+		
 		function getPhotoUrl(index) {
             return `https://raw.githubusercontent.com/winsfc/winsfc.github.io/refs/heads/main/photos/photo${index}.png`;
         }
 
         // 初始化照片库
         function renderPhotos() {
+			const gallery = document.querySelector('.photo-gallery');
             gallery.innerHTML = '';
             photos.forEach(photo => {
 				photoUrl = getPhotoUrl(photo.id);
@@ -504,26 +478,10 @@
                 gallery.appendChild(photoCard);
             });
         }
-
-        // 事件监听
-        playBtn.addEventListener('click', togglePlay);
-        audio.addEventListener('timeupdate', updateProgress);
-        progressContainer.addEventListener('click', setProgress);
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-
-        // 初始化
-		document.addEventListener('DOMContentLoaded', () => {
-			renderPhotos();
-			tryAutoPlay(); // 尝试自动播放音乐
-		});
-        
+		
+		// 初始化
+		renderPhotos();
+		
     </script>
 </body>
 </html>
